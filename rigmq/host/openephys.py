@@ -124,10 +124,10 @@ class OpenEphysEvents:
         status_queried = self.send_command(query_dict[status_query])
         return True if status_queried == '1' else False if status_queried == '0' else None
 
-    def send_command(self, cmd):
-        self.socket.send(cmd)
+    def send_command(self, cmd: str) -> str:
+        self.socket.send(cmd.encode('utf8'))
         self.last_cmd = cmd
-        self.last_rcv = self.socket.recv()
+        self.last_rcv = self.socket.recv().decode('utf8')
         return self.last_rcv
 
     def close(self):
