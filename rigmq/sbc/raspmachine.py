@@ -10,10 +10,10 @@ import zmq
 import serial
 import logging
 import struct
-import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO # raspberry pi gpio python bindings
 
 
-logger = logging.getLogger('pipefinch.pipeline.filestructure')
+logger = logging.getLogger('rigmq.sbc.raspmachine')
 # Classes and functions
 
 
@@ -33,6 +33,7 @@ class Event():
 
 class TTLStim(Event):
     # A simple stimulus that just triggers itself (a pin) to be on for a period of time
+    # No timers/threads for now. Mind that therefore this stalls the state machine for the duration of the stim.
     def __init__(self, pin):
         super(TTLStim, self).__init__(pin)
         logger.debug('Set ttl stim on pin {}'.format(self.pin))
