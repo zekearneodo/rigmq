@@ -10,10 +10,10 @@ import zmq
 import serial
 import logging
 import struct
-import RPi.GPIO as GPIO # raspberry pi gpio python bindings
+import RPi.GPIO as GPIO
 
 
-logger = logging.getLogger('rigmq.sbc.raspmachine')
+logger = logging.getLogger('pipefinch.pipeline.filestructure')
 # Classes and functions
 
 
@@ -31,19 +31,20 @@ class Event():
         return 0
 
 
-class TTLStim(Event):
+class TTLStim(Event): #this is an inverted ttl (on is high) for the relay module.
     # A simple stimulus that just triggers itself (a pin) to be on for a period of time
-    # No timers/threads for now. Mind that therefore this stalls the state machine for the duration of the stim.
     def __init__(self, pin):
         super(TTLStim, self).__init__(pin)
         logger.debug('Set ttl stim on pin {}'.format(self.pin))
+        self.off()
+
     # in this one, the pin proper is the activator.
-    def on(self):
+    def off(self):
         GPIO.output(self.pin, GPIO.HIGH)
         logger.debug('set pin {} hi'.format(self.pin))
         return 0
 
-    def off(self):
+    def on(self):
         GPIO.output(self.pin, GPIO.LOW)
         return 0
 
@@ -137,7 +138,7 @@ def send_trial_number(trial_pars):
     return 'ok trial_number:{0}'.format(trial_number)
 
 
-def run_trial(trial_pars: dict):
+def run_trial(trial_pars):
     # here is where the trial is defined
     # for now the trial is just playing a sound file
     # read the parameters
