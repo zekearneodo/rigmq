@@ -1,3 +1,0 @@
-Initializing block
-Starting Block
-Running trial {'iti': 625439, 'tr_num': 0, 'stim': None, 'transparent_time': 30000}
